@@ -1,0 +1,9 @@
+Pipeline1 0 0 [some text] 1
+Pipeline1 1 0 [another text] 2
+Pipeline1 2 0 [body] -1
+Pipeline2 3 0 [OK] 99
+Pipeline2 99 0 [OK] -1
+bad line
+Pipeline3 4 0 [loop] 5
+Pipeline3 5 0 [back] 4
+Pipeline1 4 0 text -1
