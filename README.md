@@ -26,7 +26,7 @@ pipeline_id id encoding [body] next_id
 **Default Log File**:
 
 ```bash
-python3 log-parser.py < input.txt
+python3 src/log_processor.py < input.txt
 ```
 
 -   Errors go to a file like error_log_YYYYMMDD_HHMMSS.txt
@@ -34,7 +34,7 @@ python3 log-parser.py < input.txt
 **Custom Log File**:
 
 ```bash
-python3 log-parser.py --log-file my_errors.txt < input.txt
+python3 src/log_processor.py --log-file my_errors.txt < input.txt
 ```
 
 ## Sample Input and Output
@@ -71,4 +71,12 @@ Error: Cycle detected in pipeline Pipeline3 involving id 4
 ```bash
 2025-03-13 14:30:45 - ERROR - Wrong format on the log at line 6: Expected 3 fields before '[body]', got 1 - 'bad line'
 2025-03-13 14:30:45 - ERROR - Cycle detected in pipeline Pipeline3 involving id 4
+```
+
+**Testing**
+
+Run the test suite to verify functionality:
+
+```bash
+python3 -m unittest tests/test_log_processor.py
 ```

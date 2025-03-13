@@ -1,0 +1,39 @@
+# Pipeline1: Valid sequence with mixed encodings and UUIDs
+Pipeline1 04e28d3b-d945-4051-8eeb-6f049f391234 0 [Start of Pipeline1 with plain text] 5352ab80-7b0a-421f-8ab4-5c840ae882ee
+Pipeline1 5352ab80-7b0a-421f-8ab4-5c840ae882ee 1 [48656C6C6F20576F726C64] 37620c47-da9b-4218-9c35-fdb5961d4239
+Pipeline1 37620c47-da9b-4218-9c35-fdb5961d4239 0 [Middle section with ASCII] 9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d
+Pipeline1 9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d 1 [456E64206F6620746865206C696E65] -1
+
+# Pipeline2: Cycle and duplicate ID
+Pipeline2 10 0 [Step one] 20
+Pipeline2 20 1 [537465702074776F] 30
+Pipeline2 30 0 [Step three loops back] 20  # Cycle: 20 -> 30 -> 20
+Pipeline2 20 0 [Duplicate ID entry] 40    # Duplicate ID '20'
+
+# Pipeline3: Branching (two messages point to the same next_id)
+Pipeline3 1 0 [Branch A start] 3
+Pipeline3 2 0 [Branch B start] 3
+Pipeline3 3 1 [426F7468206C6561642068657265] -1
+
+# Pipeline4: Invalid hex and non-ASCII hex
+Pipeline4 100 1 [GG] -1             # Invalid hex
+Pipeline4 101 1 [FF] 102           # Valid hex, but non-ASCII
+Pipeline4 102 0 [Valid text] -1
+
+# Legacy-Hex: Long sequence with hex and ASCII, plus orphan
+Legacy-Hex 1 1 [566976616d75732072757472756d2069642065726174206e6563207665686963756c612e] 2
+Legacy-Hex 2 0 [Morbi lobortis maximus viverra.] 3
+Legacy-Hex 3 1 [416c697175616d2065742068656e647265726974206e756c6c61] 4
+Legacy-Hex 4 0 [Donec fringilla lacinia eleifend.] -1
+Legacy-Hex 99 0 [Orphaned message] 100     # Orphan: no connection to sequence
+
+# Pipeline5: Long chain with no last message (all point forward)
+Pipeline5 500 0 [Step 1] 501
+Pipeline5 501 1 [537465702032] 502
+Pipeline5 502 0 [Step 3] 503
+Pipeline5 503 1 [537465702034] 504
+
+# Malformed lines for error testing
+BadPipeline 1 0 missing_brackets -1
+BadPipeline 2 [no fields before] -1
+BadPipeline 3 0 0 [too] many fields -1
